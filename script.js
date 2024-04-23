@@ -1,6 +1,6 @@
 function element(tag, classname, id, text) {
   let tags = document.createElement(tag);
-  tags.setAttribute('class', classname);
+  tags.setAttribute("class", classname);
   tags.id = id;
   tags.innerHTML = text;
   return tags;
@@ -21,31 +21,39 @@ result1
         <div class="card h-100">
         <div class="card-header">
         <h5 class="card-title text-center">${ele[i].name.common}</h5></div>
-        <div class="card-body">
-        <img src="${ele[i].flags.png}" text-center class="card-img mx-auto d-block" alt="image">
-        <h6 class="card-text text-center">capital:${ele[i].capital}</h6>
-        <h6 class="card-text text-center">Region:${ele[i].region}</h6>
-        <h6 class="card-text text-center">Country code:${ele[i].car.signs}</h6></div>
-        <button class="btn btn-primary mt-3 butn" id="butn">Click for weather</button>
+        <div class="img-box">
+        <img src="${ele[i].flags.png}" class="card-img-top" alt="country image">
+        </div>
+        <div class="card=body">
+        <div class="card-text text-center">capital:${ele[i].capital}</div>
+        <div class="card-text text-center">Region:${ele[i].region}</div>
+        <div class="card-text text-center">Country code:${ele[i].car.signs}</div>
+        <button class="btn btn-primary">Click for weather</button>
         </div>
         </div>
         `;
       row.append(col);
-    
-        
     }
+
+    let button = document.querySelectorAll("button");
+    button.forEach((btn, index) => {
+      btn.addEventListener("click", () => {
+        let latlng = result1[index].latlng;
+        let lat = latlng[0];
+        let lon = latlng[1];
+
+        let weather = fetch(
+          `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=5bd8f9630f3ec400415058e81bc8e83e`
+        );
+
+        weather
+          .then((data) => data.json())
+          .then((weather) => {
+            alert(`weather of ${result1[index].name.common} is `);
+          });
+      });
+    });
   });
-//   const button=document.querySelectorAll(".butn");
-//   button.addEventListener("click",()=>{
-//   const lat = ele[i].latlng[0];
-//       const lon = ele[i].latlng[1];
-//       const APIkey = "5bd8f9630f3ec400415058e81bc8e83e";
-//       const url =
-//         `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${APIkey}`;
-//       fetch(url)
-//         .then((data) => data.json())
-//         .then((weather)=>console.log(weather));
-  
-//  } )
+
 container.append(row, h1);
 document.body.append(container);
